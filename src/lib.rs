@@ -42,9 +42,6 @@ const LOGO: &str = r#"
 d88P     888 888      "Y8888P  "Y8888   "Y88888P"   "Y8888P"
 "#;
 
-#[cfg(feature = "img")]
-core::arch::global_asm!(include_str!("../../axdriver/image.S"));
-
 struct LogIfImpl;
 
 #[crate_interface::impl_interface]
