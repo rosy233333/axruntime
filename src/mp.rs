@@ -7,7 +7,7 @@ static ENTERED_CPUS: AtomicUsize = AtomicUsize::new(1);
 ///
 /// It is called from the bootstrapping code in [axhal].
 #[no_mangle]
-pub fn rust_main_secondary(cpu_id: usize) -> ! {
+pub fn rust_main_secondary(cpu_id: usize) {
     ENTERED_CPUS.fetch_add(1, Ordering::Relaxed);
 
     info!("Secondary CPU {:x} started.", cpu_id);
@@ -33,12 +33,12 @@ pub fn rust_main_secondary(cpu_id: usize) -> ! {
     #[cfg(all(feature = "tls", not(feature = "multitask")))]
     super::init_tls();
 
-    #[cfg(feature = "multitask")]
-    axtask::run_idle();
-    #[cfg(not(feature = "multitask"))]
-    loop {
-        axhal::arch::wait_for_irqs();
-    }
+    // #[cfg(feature = "multitask")]
+    // axtask::run_idle();
+    // #[cfg(not(feature = "multitask"))]
+    // loop {
+    //     axhal::arch::wait_for_irqs();
+    // }
 }
 
 /// The number of CPUs that have entered the runtime.
